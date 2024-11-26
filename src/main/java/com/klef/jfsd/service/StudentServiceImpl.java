@@ -56,4 +56,16 @@ public class StudentServiceImpl implements StudentService
 	{
 		return CourseMapping.findAll();
 	}
+
+	@Override
+	public String changePassword(int id, String pwd) 
+	{
+		Student s = studentRepository.findById(id).orElseThrow();
+		s.setPassword(pwd);
+		studentRepository.save(s);
+		
+		return "success";
+	}
+	
+	
 }

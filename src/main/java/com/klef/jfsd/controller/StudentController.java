@@ -164,7 +164,7 @@ public class StudentController
 		return mv;
 	}
 	@GetMapping("logout")
-	public ModelAndView facultylogout(HttpServletRequest request)
+	public ModelAndView logout(HttpServletRequest request)
 	{
 		ModelAndView mv = new ModelAndView();
         HttpSession session = request.getSession();
@@ -174,6 +174,42 @@ public class StudentController
 		return mv;
 	}
 		
+	@GetMapping("studentprofile")
+	public ModelAndView Profile()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("studentprofile");
+		return mv;
+	}
+	
+	@GetMapping("changepwd")
+	public ModelAndView changepwd()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("studentchangepassword");
+		return mv;
+	}
+	
+	@PostMapping("updatepwd")
+	public ModelAndView updatepassword(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		HttpSession session = request.getSession();
+		
+		Student student = (Student) session.getAttribute("student");
+		
+		int id = student.getId();
+		String pwd = request.getParameter("password");
+		
+		
+		String msg = studentService.changePassword(id, pwd);
+		
+		mv.setViewName("redirect:/student/changepwd");
+		mv.addObject("msg",msg);
+		
+		return mv;
+	}
 	
 	
 }

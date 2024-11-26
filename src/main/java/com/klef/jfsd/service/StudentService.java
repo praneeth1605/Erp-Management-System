@@ -17,4 +17,6 @@ public interface StudentService
   public String addStudentCourse(Student_Course course);
 
   public List<Student_Course> ViewAllCourses();
+  
+  public String changePassword(int id,String pwd);
 }
