@@ -4,147 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        /* Base styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-            min-height: 100vh;
-        }
+       
+:root {
+    --primary-color: #34495E;
+    --secondary-color: #2C3E50;
+    --accent-color: #1ABC9C;
+    --text-light: #ECF0F1;
+    --text-muted: #95A5A6;
+    --transition: all 0.3s ease;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-        /* Layout structure */
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.6;
+}
 
-        /* Side navbar styling - adjust width as needed */
-        .sidenav {
-            width: 250px;
-            background-color: #2c3e50;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-        }
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        /* Main content area */
-        .main-content {
-            margin-left: 250px; /* Should match sidenav width */
-            flex: 1;
-            padding: 20px 40px;
-        }
+.main-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    margin-top: 100px;
+    margin-left: 90px;
+}
 
-        .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 20px;
-        }
+.content-wrapper h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
 
-        /* Page title styling */
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 24px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            text-align: center;
-        }
+.button-container {
+    margin-bottom: 20px;
+    text-align: right;
+}
 
-        /* Register courses button container */
-        .button-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.button-container a {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-        /* Register courses button */
-        a[href="coursereg"] {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+.button-container a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
 
-        a[href="coursereg"]:hover {
-            background-color: #2980b9;
-        }
+.button-container a:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: var(--primary-color-dark); /* Slightly darker color for clicked effect */
+}
 
-        /* Table styling */
-        .table-container {
-            overflow-x: auto;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0 auto;
-        }
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center; /* Center the table horizontally */
+}
 
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+table {
+    width: 100%;
+    max-width: 900px; /* Optional: limit table width */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        th {
-            background-color: #34495e;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
+table th {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 12px;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: 600;
+}
 
-        tr:hover {
-            background-color: #f8f9fa;
-        }
+table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--secondary-color);
+}
 
-        /* Responsive design */
-        @media (max-width: 1024px) {
-            .main-content {
-                margin-left: 200px;
-                padding: 20px;
-            }
-        }
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-            }
+table tr:hover {
+    background-color: rgba(26, 188, 156, 0.1);
+    transition: var(--transition);
+}
 
-            .sidenav {
-                width: 200px;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-            }
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
 
-            .sidenav.active {
-                transform: translateX(0);
-            }
+    .main-content {
+        padding: 15px;
+    }
 
-            h2 {
-                font-size: 20px;
-            }
-        }
+    table {
+        font-size: 14px;
+    }
+}
+
+/* Responsive Typography */
+@media screen and (max-width: 480px) {
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    .button-container a {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Subtle Animations */
+.button-container a,
+table tr {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Add some additional styling for messages */
+h2:nth-child(2) {
+    color: var(--accent-color);
+    border-bottom: none;
+    font-size: 1rem;
+    margin-top: -15px;
+    padding-bottom: 0;
+}
     </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <%@ include file="studentnav.jsp" %> <!-- Include top navbar -->
+    <%@include file="studentnav.jsp" %>
     
     <div class="container">
-        <div class="sidenav">
-            <%@ include file="studentsidenav.jsp" %>
-        </div>
-        
         <div class="main-content">
             <div class="content-wrapper">
                 <h2>My Courses</h2>
@@ -153,6 +172,7 @@
                 <div class="button-container">
                     <a href="coursereg">Register Courses</a>
                 </div>
+              
                 
                 <div class="table-container">
                     <table>

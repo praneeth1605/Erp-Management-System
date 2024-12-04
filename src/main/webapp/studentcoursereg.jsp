@@ -12,51 +12,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Registration</title>
+    <title>Student Course Registration</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
+        :root {
+            --primary-color: #34495E;
+            --secondary-color: #2C3E50;
+            --accent-color: #1ABC9C;
+            --accent-color-dark: #16a085;
+            --text-light: #ECF0F1;
+            --text-muted: #95A5A6;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            background-color: #ecf0f1;
-            color: #34495E;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--primary-color);
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* Top Navbar */
-        .navbar {
-            background-color: #34495E;
-            color: #FFFFFF;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .navbar .nav-link {
-            color: #FFFFFF !important;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            background-color: #34495E;
-            color: #FFFFFF;
-            height: 100vh;
-            position: fixed;
-            width: 200px;
-            padding-top: 70px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .sidebar-hidden {
-            margin-left: -200px;
-        }
-        
-        .sidebar .nav-link {
-            color: #FFFFFF;
+            line-height: 1.6;
         }
 
         /* Main Content */
@@ -71,45 +48,58 @@
             margin-left: 0;
         }
 
-        /* Toggle Button */
-        .toggle-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 210px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #34495E;
-            background-color: #FFFFFF;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            transition: left 0.3s ease;
-            z-index: 20;
-        }
-
-        .btn-moved {
-            left: 10px;
-        }
-        
         /* Form styling */
         .form-container {
             background-color: #ffffff;
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px; /* Increased width from 500px to 600px */
-            margin-top: 0px; /* Add top margin to align closer to the navbar */
-            margin-left: 250px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 20px;
         }
 
         .form-container h1 {
-            color: #34495E;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 1.5rem;
-            
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            font-weight: 500;
         }
 
+        /* Table Styling */
+        .form-group table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .form-group table th {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 12px;
+            text-align: left;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .form-group table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .form-group table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .form-group table tr:hover {
+            background-color: rgba(26, 188, 156, 0.1);
+            transition: var(--transition);
+        }
+
+        /* Form Controls */
         .form-control {
             border-radius: 4px;
             border: 1px solid #ddd;
@@ -117,31 +107,80 @@
         }
 
         .form-control:focus {
-            border-color: #1ABC9C;
+            border-color: var(--accent-color);
             box-shadow: 0 0 8px rgba(26, 188, 156, 0.3);
         }
 
-        .btn-custom {
-            background-color: #1ABC9C;
-            color: #fff;
+        /* Select Styling */
+        select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
-            font-size: 1.1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 8px rgba(26, 188, 156, 0.3);
+        }
+
+        /* Button Styling */
+        .btn-custom {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            width: 100%;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 var(--accent-color-dark);
+            position: relative;
+            transition: all 0.1s ease;
+            cursor: pointer;
         }
 
         .btn-custom:hover {
-            background-color: #16A085;
+            background-color: var(--accent-color-dark);
+            box-shadow: 0 2px 0 var(--accent-color-dark);
+            top: 2px;
+        }
+
+        .btn-custom:active {
+            box-shadow: none;
+            top: 4px;
+            background-color: var(--accent-color-dark);
+        }
+
+        /* Responsive Adjustments */
+        @media screen and (max-width: 768px) {
+            .content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .form-container {
+                width: 95%;
+                padding: 1rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .form-group table {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
-<%@ include file="studentnav.jsp" %> <!-- Include top navbar -->
-<%@ include file="studentsidenav.jsp" %>
-
-<!-- Sidebar Toggle Button -->
-<button id="toggle-btn" class="toggle-btn"><i class="fas fa-chevron-left"></i></button>
+<%@ include file="studentnav.jsp" %> 
 
 <!-- Main Content -->
 <div class="content">
@@ -206,17 +245,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-document.getElementById('toggle-btn').addEventListener('click', function () {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtnIcon = this.querySelector('i');
-
-    sidebar.classList.toggle('sidebar-hidden');
-    this.classList.toggle('btn-moved');
-
-    toggleBtnIcon.classList.toggle('fa-chevron-right');
-    toggleBtnIcon.classList.toggle('fa-chevron-left');
-});
-</script>
 </body>
 </html>

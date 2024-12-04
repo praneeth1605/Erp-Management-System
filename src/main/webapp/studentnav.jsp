@@ -636,10 +636,6 @@ char ch = s.getName().charAt(0);
                             <i class="fas fa-user-graduate"></i>
                             My Profile
                         </a>
-                        <a class="dropdown-item" href="studentaccount">
-                            <i class="fas fa-cog"></i>
-                            Account Settings
-                        </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logout">
                             <i class="fas fa-sign-out-alt"></i>
@@ -668,7 +664,7 @@ char ch = s.getName().charAt(0);
                 
                 <!-- Courses -->
                 <li class="nav-item">
-                    <a class="nav-link" href="courses">
+                    <a class="nav-link" href="viewMyCourses">
                         <i class="fas fa-book"></i>
                         My Courses
                     </a>
@@ -676,7 +672,7 @@ char ch = s.getName().charAt(0);
 
                 <!-- Course Registration -->
                 <li class="nav-item">
-                    <a class="nav-link" href="course-registration">
+                    <a class="nav-link" href="coursereg">
                         <i class="fas fa-plus-square"></i>
                         Course Registration
                     </a>

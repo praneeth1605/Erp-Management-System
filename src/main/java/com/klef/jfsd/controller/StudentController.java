@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.klef.jfsd.model.Course;
 import com.klef.jfsd.model.Faculty;
-import com.klef.jfsd.model.FacultyCourseMapping;
 import com.klef.jfsd.model.Student;
 import com.klef.jfsd.model.Student_Course;
 import com.klef.jfsd.service.AdminService;
