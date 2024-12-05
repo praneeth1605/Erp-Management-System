@@ -35,7 +35,7 @@
             min-width: 100px;
         }
 
-        th:nth-child(6) {
+        th:nth-child(8) {
             min-width: 150px; /* Ensures sufficient space for action buttons */
         }
 
@@ -81,6 +81,8 @@
                     <th>Course Code</th>
                     <th>Credits</th>
                     <th>Department</th>
+                    <th>Academic Year</th>
+                    <th>Semester</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -92,6 +94,8 @@
                         <td>${course.code}</td>
                         <td>${course.credits}</td>
                         <td>${course.department}</td>
+                        <td>${course.academicYear}</td>
+                        <td>${course.semester}</td>
                         <td>
                             <a href='<c:url value="updatecourse/${course.id}"/>' 
                                class="btn-action btn-update">

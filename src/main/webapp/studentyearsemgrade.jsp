@@ -208,41 +208,12 @@ select.form-control option {
 </head>
 <body>
 
-<%@ include file="adminnav.jsp" %>
+<%@ include file="studentnav.jsp" %>
 
 <div class="content">
     <div class="form-container">
-        <h1>Course Registration</h1>
-        <form action="addcourse" method="POST">
-
-           <div class="form-group">
-                <label for="name">Course Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter course name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="code">Course Code</label>
-                <input type="text" class="form-control" id="code" name="code" placeholder="Enter course code" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="credits">Credits</label>
-                <input type="number" class="form-control" id="credits" name="credits" placeholder="Enter credits" step="any" required>
-            </div>
-            
-             
-            <div class="form-group">
-                <label for="dept">Department</label>
-                <select class="form-control" id="dept" name="dept" required>
-                    <option value="">Select Department</option>
-                    <option value="CSE">CSE</option>
-                    <option value="CSIT">CSIT</option>
-                    <option value="AIDS">AIDS</option>
-                    <option value="ECE">ECE</option>
-                    <option value="EEE">EEE</option>
-                    <option value="Mech">Mech</option>
-                </select>
-            </div>
+        <h1>Students Marks Info</h1>
+        <form action="getcoursegrades" method="POST">
             
             <div class="form-group">
                 <label for="ay">Academic Year</label>
@@ -267,8 +238,6 @@ select.form-control option {
         </form>
     </div>
 </div>
-
-<%@ include file="footer.jsp" %>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

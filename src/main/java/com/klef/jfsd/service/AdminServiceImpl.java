@@ -75,6 +75,7 @@ public class AdminServiceImpl implements AdminService
 		student.setContactno(s.getContactno());
 		student.setName(s.getName());
 		student.setDob(s.getDob());
+		student.setStatus(s.getStatus());
 		
 		studentRepository.save(student);
 		
@@ -91,6 +92,7 @@ public class AdminServiceImpl implements AdminService
         faculty.setDesignation(f.getDesignation());
         faculty.setEmail(f.getEmail());
         faculty.setName(f.getName());
+        faculty.setStatus(f.getStatus());
         
         facultyRepository.save(faculty);
 		
@@ -118,14 +120,20 @@ public class AdminServiceImpl implements AdminService
 	@Override
 	public void deleteStudent(int id) 
 	{
-        studentRepository.deleteById(id);
+        Student s = studentRepository.findById(id).get();
+        s.setStatus("Inactive");
+        
+        studentRepository.save(s);
 		
 	}
 
 	@Override
 	public void deleteFaculty(int id) 
 	{
-		facultyRepository.deleteById(id);
+		
+		Faculty f = facultyRepository.findById(id).get();
+		f.setStatus("Inactive");
+		facultyRepository.save(f);
 		
 	}
 

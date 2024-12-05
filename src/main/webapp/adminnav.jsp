@@ -817,6 +817,13 @@
                         View Mapped Courses
                     </a>
                 </li>
+                
+                 <li class="nav-item">
+                    <a class="nav-link" href="externals">
+                        <i class="fas fa-chart-bar"></i>
+                        Post Externals
+                    </a>
+                </li>
             </ul>
         </div>
 

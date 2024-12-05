@@ -10,7 +10,6 @@
     
     <style>
        
-        
         /* Main Content */
         .content {
             margin-left: 200px;
@@ -45,9 +44,7 @@
 </head>
 <body>
 
-<%@ include file="adminnav.jsp" %> <!-- Include top navbar -->
-<%@ include file="adminsidenav.jsp" %>
-
+<%@ include file="adminnav.jsp" %> 
 
 
 <div class="content">
@@ -73,7 +70,6 @@
                         <td>${fcm.course.department}</td>
                         <td>${fcm.instructor.id}</td>
                         <td>${fcm.instructor.name}</td>
-
                     </tr>
                 </c:forEach>
             </tbody>

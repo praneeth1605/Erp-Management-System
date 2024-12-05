@@ -34,10 +34,8 @@
             color: #fff;
             min-width: 100px; /* Sets default minimum width for all columns */
         }
-
-      
         
-        th:nth-child(9) {
+        th:nth-child(10) {
             min-width: 150px; /* Increases column width for these columns */
         }
 
@@ -65,14 +63,32 @@
         .btn-delete:hover {
             background-color: #C0392B;
         }
-        
-        
+
+        /* Status Badge Styles */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            
+            
+        }
+
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-inactive {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
 <%@ include file="adminnav.jsp" %> <!-- Include top navbar -->
-<%@ include file="adminsidenav.jsp" %> <!-- Include sidebar -->
+
 
 <div class="content">
     <div class="container table-container">
@@ -88,6 +104,7 @@
                     <th>Father's Name</th>
                     <th>Mother's Name</th>
                     <th>Gender</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -102,6 +119,11 @@
                         <td>${student.fname}</td>
                         <td>${student.mname}</td>
                         <td>${student.gender}</td>
+                        <td>
+                            <span class="status-badge ${student.status.toLowerCase() eq 'active' ? 'status-active' : 'status-inactive'}">
+                                ${student.status}
+                            </span>
+                        </td>
                         <td>
                             <a href='<c:url value="updatestudent/${student.id}"/>' 
                                class="btn-action btn-update">

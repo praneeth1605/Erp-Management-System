@@ -4,18 +4,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Courses</title>
+    <title>Course Mapped Faculty</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
+       
+        /* Main Content */
+        .content {
+            margin-left: 200px;
+            margin-top: 60px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content-expanded {
+            margin-left: 0;
+        }
+
+       
         
        /* Table Styles */
          .table-container {
             padding: 2rem;
-            justify-content: center; /* Aligns the table horizontally */
-    align-items: center; /* Aligns the table vertically */
-    flex-direction: column;
         }
 
         .table {
@@ -28,8 +39,7 @@
             background-color: #34495E;
             color: #fff;
         }
-        
-        .btn-action {
+         .btn-action {
             font-size: 0.9rem;
             padding: 5px 10px;
             color: #fff;
@@ -42,47 +52,44 @@
         }
         
         
-        
-        
     </style>
 </head>
 <body>
 
-<%@ include file="facultynav.jsp" %> <!-- Include top navbar -->
+<%@ include file="adminnav.jsp" %> 
 
 
 <div class="content">
-    <div class="container table-container" style="
-    margin-top: 100px;
-    margin-left: 260px;
-">
-        <h2 class="mb-4">Post Attendance</h2>
+    <div class="container table-container">
+        <h2 class="mb-4">Courses with Mapped Faculty</h2>
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th>Course Name</th>
                     <th>Course Code</th>
-                    <th>Credits</th>
-                    <th>Department</th>
                     <th>Section</th>
+                    <th>Department</th>
+                    <th>Faculty Id</th>
+                    <th>Faculty Name</th>
                     <th>Action</th>
-                    
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="fcm" items="${mycourselist}">
+                <c:forEach var="fcm" items="${courses}">
                     <tr>
                         <td>${fcm.course.name}</td>
                         <td>${fcm.course.code}</td>
-                        <td>${fcm.course.credits}</td>
-                        <td>${fcm.course.department}</td>
                         <td>${fcm.section}</td>
+                        <td>${fcm.course.department}</td>
+                        <td>${fcm.instructor.id}</td>
+                        <td>${fcm.instructor.name}</td>
                         <td>
-                            <a href='<c:url value="postattendance/${fcm.course.id}/${fcm.section}" />' 
+                            <a href='<c:url value="postexternals/${fcm.course.id}/${fcm.section}" />' 
                                class="btn-action btn-update">
-                               <i class="fa-solid fa-list-check"></i> Attendance
+                               <i class="fa-solid fa-marker"></i> Post Externals
                             </a>
                         </td>
+                        
                     </tr>
                 </c:forEach>
             </tbody>
@@ -94,5 +101,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

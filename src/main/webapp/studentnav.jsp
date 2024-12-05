@@ -680,9 +680,9 @@ char ch = s.getName().charAt(0);
 
                 <!-- Attendance -->
                 <li class="nav-item">
-                    <a class="nav-link" href="attendance">
+                    <a class="nav-link" href="myattendance">
                         <i class="fas fa-calendar-check"></i>
-                        Attendance
+                        My Attendance
                     </a>
                 </li>
 
@@ -697,8 +697,8 @@ char ch = s.getName().charAt(0);
                 <!-- Assignments -->
                 <li class="nav-item">
                     <a class="nav-link" href="assignments">
-                        <i class="fas fa-file-alt"></i>
-                        Assignments
+                        <i class="fa fa-trophy"></i>
+                        My CGPA
                     </a>
                 </li>
             </ul>

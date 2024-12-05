@@ -1,6 +1,9 @@
 package com.klef.jfsd.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.klef.jfsd.model.Course;
 import com.klef.jfsd.model.Faculty;
+import com.klef.jfsd.model.FacultyCourseMapping;
 import com.klef.jfsd.model.Student;
 import com.klef.jfsd.model.Student_Course;
 import com.klef.jfsd.service.AdminService;
@@ -36,7 +40,7 @@ public class StudentController
 	  ModelAndView mv = new ModelAndView();
 	  mv.setViewName("studenthome");
 	  return mv;
-	}
+	}	
 	
 	@GetMapping("login")
 	public ModelAndView studentLogin()
@@ -60,8 +64,16 @@ public class StudentController
 		
 		if(student!=null)
 		{
-			session.setAttribute("student", student);
-			mv.setViewName("redirect:/student/studenthome");
+			if(student.getStatus().equals("Active"))
+			{
+				session.setAttribute("student", student);
+				mv.setViewName("redirect:/student/studenthome");
+			}
+			else
+			{
+				mv.setViewName("blocked");
+			}
+			
 		}
 		else
 		{
@@ -71,10 +83,6 @@ public class StudentController
 		
 		return mv;
 	}
-	
-	
-	
-	
 	
 	@GetMapping("coursereg")
 	public ModelAndView coursereg()
@@ -137,22 +145,64 @@ public class StudentController
 		mv.addObject("msg",res);
 		mv.setViewName("redirect:/student/viewMyCourses");
 		
-		
-		
-		
-		
 		return mv;
 	}
 	
 	@GetMapping("viewMyCourses")
-	public ModelAndView viewMyCourses()
+	public ModelAndView viewMyCourses(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("viewMyCourses");
+		Student s = (Student)session.getAttribute("student");
+		mv.addObject("clist",studentService.ViewAllCourses(s));
+		
+		return mv;
+	}
+	
+	@GetMapping("myattendance")
+	public ModelAndView myattendance()
 	{
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("viewMyCourses");
-		mv.addObject("clist",studentService.ViewAllCourses());
-		
+		mv.setViewName("studentyearsem");
 		return mv;
+	}
+	
+	@PostMapping("studentattendance")
+	public ModelAndView viewattendance(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("studentattendance");
+		String ay = request.getParameter("ay");
+		String semester = request.getParameter("semester");
+		Student s = (Student)session.getAttribute("student");
+		
+		List<Course> clist = studentService.viewcoursebysem(ay, semester);
+		
+		List<Map<String, Object>> attendanceDetails = new ArrayList<Map<String, Object>>();
+
+	      for (Course course : clist) 
+	      {
+	        
+	        int sec = studentService.findSectionByCourseAndStudent(course, s);
+	        if(sec!=-1) {
+	          Map<String, Object> details = new HashMap<>();
+	            details.put("courseName", course.getName());
+	            details.put("courseName", course.getName());
+	            details.put("courseCode", course.getCode());
+	            details.put("totalclasses", studentService.getTotalClasses(course, sec));
+	            details.put("attendedclasses", studentService.getTotalAttendendClasses(s, course));
+	            details.put("section",sec );
+	            details.put("attendancePercentage", studentService.getStudentAttedance(course, s,sec));
+
+	            attendanceDetails.add(details);
+	        }
+	      }
+	      
+	    mv.addObject("attendanceDetails", attendanceDetails);
+	    return mv;
 	}
 	
 	@GetMapping("/SessionExpired")
@@ -206,6 +256,31 @@ public class StudentController
 		
 		mv.setViewName("redirect:/student/changepwd");
 		mv.addObject("msg",msg);
+		
+		return mv;
+	}
+	
+	@GetMapping("grades")
+	public ModelAndView grades()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("studentyearsemgrade");
+		return mv;
+	}
+	
+	@PostMapping("getcoursegrades")
+	public ModelAndView getcoursesgrade(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("viewgrade");
+		
+		String ay = request.getParameter("ay");
+		String semester = request.getParameter("semester");
+		
+		HttpSession session = request.getSession();
+		Student s = (Student) session.getAttribute("student");
+		List<Student_Course> scm = studentService.getstudentcourses(s.getId(), ay, semester);
+		mv.addObject("mycourselist", scm);
 		
 		return mv;
 	}

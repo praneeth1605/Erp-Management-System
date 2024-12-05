@@ -78,9 +78,9 @@
                         <td>${fcm.course.department}</td>
                         <td>${fcm.section}</td>
                         <td>
-                            <a href='<c:url value="postattendance/${fcm.course.id}/${fcm.section}" />' 
+                            <a href='<c:url value="postinternals/${fcm.course.id}/${fcm.section}" />' 
                                class="btn-action btn-update">
-                               <i class="fa-solid fa-list-check"></i> Attendance
+                               <i class="fa-solid fa-marker"></i> Post Internals
                             </a>
                         </td>
                     </tr>

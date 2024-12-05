@@ -15,9 +15,12 @@ import com.klef.jfsd.model.Course;
 import com.klef.jfsd.model.Faculty;
 import com.klef.jfsd.model.FacultyCourseMapping;
 import com.klef.jfsd.model.Student;
+import com.klef.jfsd.model.Student_Course;
 import com.klef.jfsd.service.AdminService;
+import com.klef.jfsd.service.FacultyService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("admin")
@@ -26,45 +29,51 @@ public class AdminController
 	@Autowired
 	private AdminService adminService;
 	
-	@GetMapping("login")
-   public ModelAndView admiLogin()
-   {
-	   ModelAndView mv = new ModelAndView();
-	   mv.setViewName("adminlogin");
-	   return mv;
-   }
+	@Autowired
+	private FacultyService facultyService;
 	
-	@GetMapping("/logout")
-	 public ModelAndView adminLogout()
+	   @GetMapping("login")
+	   public ModelAndView admiLogin()
 	   {
 		   ModelAndView mv = new ModelAndView();
 		   mv.setViewName("adminlogin");
 		   return mv;
 	   }
-	
-	@PostMapping("/checklogin")
-	public ModelAndView adminHome(HttpServletRequest request)
-	{
-		ModelAndView mv = new ModelAndView();
 		
-		String uname = request.getParameter("username");
-		String pwd = request.getParameter("password");
+		@GetMapping("/logout")
+		 public ModelAndView adminLogout()
+		   {
+			   ModelAndView mv = new ModelAndView();
+			   mv.setViewName("adminlogin");
+			   return mv;
+		   }
 		
-		Admin admin = adminService.checkAdminLogin(uname, pwd);
-		
-		if(admin!=null)
+		@PostMapping("/checklogin")
+		public ModelAndView adminHome(HttpServletRequest request)
 		{
-			mv.setViewName("adminhome");
+			ModelAndView mv = new ModelAndView();
+			
+			String uname = request.getParameter("username");
+			String pwd = request.getParameter("password");
+			
+			Admin admin = adminService.checkAdminLogin(uname, pwd);
+			
+			if(admin!=null)
+			{
+				mv.setViewName("adminhome");
+			}
+			else
+			{
+				mv.setViewName("adminloginfail");
+				mv.addObject("msg","Login Failed");
+			}
+			return mv;
 		}
-		else
-		{
-			mv.setViewName("adminloginfail");
-			mv.addObject("msg","Login Failed");
-		}
-		return mv;
-	}
 	
-	@GetMapping("adminhome")
+	
+	
+	
+	@GetMapping("home")
 	   public ModelAndView adminHome()
 	   {
 		   ModelAndView mv = new ModelAndView();
@@ -109,6 +118,7 @@ public class AdminController
 		s.setFname(fname);
 		s.setMname(mname);
 		s.setDepartment(dept);
+		s.setStatus("Active");
 		
 		String msg = adminService.addStudent(s);
 		
@@ -161,6 +171,7 @@ public class AdminController
 		String dob = request.getParameter("dob");
 		String email = request.getParameter("email");
 		String contact = request.getParameter("contactno");
+		String status = request.getParameter("status");
 		
 		Student s = new Student();
 		
@@ -169,6 +180,7 @@ public class AdminController
 		s.setDob(dob);
 		s.setEmail(email);
 		s.setName(name);
+		s.setStatus(status);
 		
 		String msg = adminService.updateStudent(s);
 		
@@ -210,6 +222,7 @@ public class AdminController
 		f.setContact(contact);
 		f.setDepartment(dept);
 		f.setDesignation(des);
+		f.setStatus("Active");
 		
 		String msg = adminService.addFaculty(f);
 		
@@ -238,7 +251,7 @@ public class AdminController
          
 		adminService.deleteFaculty(fid);
 		
-		return "redirect:/viewallfaculty";
+		return "redirect:/admin/viewallfaculty";
 	}
 	
 	@GetMapping("updatefaculty/{id}")
@@ -263,6 +276,7 @@ public class AdminController
 		String email = request.getParameter("email");
 		String contact = request.getParameter("contactno");
 		String des = request.getParameter("des");
+		String status = request.getParameter("status");
 		
 		Faculty f = new Faculty();
 		
@@ -272,6 +286,7 @@ public class AdminController
 		f.setDesignation(des);
 		f.setContact(contact);
 		f.setEmail(email);
+		f.setStatus(status);
 		
 		String msg = adminService.updateFaculty(f);
 		
@@ -331,6 +346,18 @@ public class AdminController
 		return mv;
 	}
 	
+	@GetMapping("externals")
+	public ModelAndView externals()
+	{
+		ModelAndView mv = new ModelAndView();
+		List<FacultyCourseMapping> clist = adminService.viewFacultyMappedcourses();
+		mv.addObject("courses",clist);
+		
+		mv.setViewName("externals");
+		
+		return mv;
+	}
+	
 	@GetMapping("coursereg")
 	   public ModelAndView coursereg()
 	   {
@@ -349,13 +376,16 @@ public class AdminController
 		   double credits = Double.parseDouble(request.getParameter("credits"));
 		   String dept = request.getParameter("dept");
 		   //int ins_id = Integer.parseInt(request.getParameter("instructorid"));
-		   
+		   String ay = request.getParameter("ay");
+		   String semester = request.getParameter("semester");
 		   Course c = new Course();
 		   
 		   c.setName(name);
 		   c.setCode(code);
 		   c.setCredits(credits);
 		   c.setDepartment(dept);
+		   c.setAcademicYear(ay);
+           c.setSemester(semester);
 		   
 		   String msg = adminService.addCourse(c);
 		   
@@ -426,4 +456,51 @@ public class AdminController
 			
 			return mv;
 		}
+		
+		@GetMapping("postexternals/{courseid}/{section}")
+		public ModelAndView postexternals(@PathVariable("courseid") int cid, @PathVariable("section") int sec)
+		{
+			
+			List<Student_Course> slist = facultyService.viewstudentsbycourse(cid, sec);
+			
+			Course course = facultyService.findcoursebyid(cid);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("postexternals");
+			mv.addObject("slist",slist);
+			mv.addObject("course",course);
+			mv.addObject("sec",sec);
+			return mv;
+		}
+		
+		@PostMapping("externalspost")
+        public ModelAndView externalspost(HttpServletRequest request)
+        {
+			ModelAndView mv = new ModelAndView();
+
+		      //HttpSession session = request.getSession();
+		      //Faculty f = (Faculty) session.getAttribute("faculty");
+		      int cid = Integer.parseInt(request.getParameter("cid"));
+		      int section = Integer.parseInt(request.getParameter("section"));
+
+
+		      List<Student_Course> scmlist = facultyService.viewstudentsbycourse(cid, section);
+
+		      for (int i = 0; i < scmlist.size(); i++) {
+		          Student_Course scm = scmlist.get(i);
+
+		          int studentExternals = Integer.parseInt(request.getParameter(Integer.toString(i)));
+		          if(scm.getStudentExternals() == -1) 
+		          {
+		          scm.setStudentExternals(studentExternals);
+
+		          facultyService.UpdateInternals(scm);
+		          }
+		      }
+
+		      mv.addObject("message", "Externals updated successfully!");
+		      mv.setViewName("redirect:/admin/home");
+		      
+		      return mv;
+        }
+		
 }

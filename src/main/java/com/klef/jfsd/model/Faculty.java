@@ -1,7 +1,6 @@
 package com.klef.jfsd.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "faculty_table")
@@ -30,6 +29,9 @@ public class Faculty {
 
     @Column(name = "faculty_designation", length = 50, nullable = false)
     private String designation;
+    
+    @Column(name = "faculty_status",nullable=false,length = 10)
+    private String status;
 
     
     // Getters and Setters
@@ -96,6 +98,14 @@ public class Faculty {
     public void setDesignation(String designation) {
         this.designation = designation;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 
     

@@ -98,7 +98,6 @@
 
         .table-attendance thead th {
             font-weight: 600;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
@@ -147,12 +146,33 @@
                 justify-content: center;
             }
         }
+        .table-attendance input[type="text"] {
+    width: 150px;
+    padding: 10px;
+    border: 2px solid var(--text-muted);
+    border-radius: 6px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.table-attendance input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+}
+
+.table-attendance input[type="text"]:hover {
+    border-color: var(--accent-color);
+}
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 class="text-center mb-4" style="color: var(--primary-color);">Post Attendance</h1>
+        <h1 class="text-center mb-4" style="color: var(--primary-color);">Post Internals</h1>
 
         <div class="course-info">
             <b>Course Name: ${course.name}</b>
@@ -160,19 +180,9 @@
             <b>Section: ${sec}</b>
         </div>
 
-        <form action="/faculty/attendancepost" method="post">
+        <form action="/faculty/internalspost" method="post">
             <input type="hidden" name="section" value="${sec}">
             <input type="hidden" name="cid" value="${course.id}">
-
-           <label class="mb-3" for="hours-select">Select Hours</label>
-<div>
-    <select id="hours-select" name="hours" multiple >
-        <% for (int i = 1; i <= 11; i++) { %>
-            <option value="<%= i %>">Hour <%= i %></option>
-        <% } %>
-    </select>
-</div>
-
 
             <div class="table-responsive">
                 <table class="table-attendance">
@@ -180,17 +190,16 @@
                         <tr>
                             <th>Student ID</th>
                             <th>Student Name</th>
-                            <th class="text-center">Attendance</th>
+                            <th class="text-center">Enter Marks(Out of 60)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="details" items="${attendance}" varStatus="status">
+                        <c:forEach var="details" items="${slist}" varStatus="status">
                             <tr>
                                 <td>${details.student.id}</td>
                                 <td>${details.student.name}</td>
                                 <td class="text-center">
-                                    <input type="checkbox" name="${status.index}" value="false">
-
+                                    <input type="text" name="${status.index}">
                                 </td>
                             </tr>
                         </c:forEach>
@@ -199,7 +208,7 @@
             </div>
 
             <button type="submit" class="btn-submit">
-                Post Attendance
+                Post Internals
             </button>
         </form>
     </div>

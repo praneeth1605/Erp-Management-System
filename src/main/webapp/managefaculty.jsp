@@ -35,10 +35,9 @@
             min-width: 100px; /* Sets default minimum width for all columns */
         }
         
-        th:nth-child(2)
-        th:nth-child(6)
-        th:nth-child(7)
-        th:nth-child(8) {
+        
+         
+        th:nth-child(9) {
             min-width: 150px; /* Increases column width for action columns */
         }
 
@@ -66,6 +65,26 @@
         .btn-delete:hover {
             background-color: #C0392B;
         }
+        
+        /* Status Badge Styles */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            
+            
+        }
+
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-inactive {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +105,7 @@
                     <th>Department</th>
                     <th>Contact</th>
                     <th>Designation</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -99,6 +119,11 @@
                         <td>${faculty.department}</td>
                         <td>${faculty.contact}</td>
                         <td>${faculty.designation}</td>
+                        <td>
+                            <span class="status-badge ${faculty.status.toLowerCase() eq 'active' ? 'status-active' : 'status-inactive'}">
+                                ${faculty.status}
+                            </span>
+                        </td>
                         <td>
                             <a href='<c:url value="updatefaculty/${faculty.id}" />' 
                                class="btn-action btn-update">

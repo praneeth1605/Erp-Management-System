@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduVerse - Educational Management Platform</title>
-    
+    <link rel="icon" href="images/homelogo1.jpg">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -153,7 +156,7 @@
         <div class="container hero-content">
             <h1 class="display-3 mb-4 text-white">Transform Educational Management</h1>
             <p class="lead mb-5 text-white">Empowering Institutions with Intelligent Technology</p>
-            <a href="#" class="btn btn-primary-custom btn-lg px-5">Get Started</a>
+            <a href="/login" class="btn btn-primary-custom btn-lg px-5">Get Started</a>
         </div>
     </div>
 

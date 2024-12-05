@@ -28,22 +28,7 @@
             background-color: #34495E;
             color: #fff;
         }
-        
-        .btn-action {
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .btn-update {
-            background-color: #5DADE2; /* Update button color */
-        }
-        
-        
-        
-        
+      
     </style>
 </head>
 <body>
@@ -56,7 +41,7 @@
     margin-top: 100px;
     margin-left: 260px;
 ">
-        <h2 class="mb-4">Post Attendance</h2>
+        <h2 class="mb-4">My Courses</h2>
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
@@ -65,8 +50,6 @@
                     <th>Credits</th>
                     <th>Department</th>
                     <th>Section</th>
-                    <th>Action</th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -77,12 +60,6 @@
                         <td>${fcm.course.credits}</td>
                         <td>${fcm.course.department}</td>
                         <td>${fcm.section}</td>
-                        <td>
-                            <a href='<c:url value="postattendance/${fcm.course.id}/${fcm.section}" />' 
-                               class="btn-action btn-update">
-                               <i class="fa-solid fa-list-check"></i> Attendance
-                            </a>
-                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

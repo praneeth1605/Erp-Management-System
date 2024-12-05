@@ -9,6 +9,6 @@
 </head>
 <body>
 <h1><c:out value="${msg}"></c:out></h1>
-<a href="/student/login">Try Again</a>
+<a href="login">Try Again</a>
 </body>
 </html>

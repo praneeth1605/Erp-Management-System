@@ -22,7 +22,11 @@ public class Course {
     @Column(name = "course_dept", nullable = false, length = 20)
     private String department;
 
+    @Column(name = "academic_year",nullable = false,length = 20)
+    private String academicYear;
     
+    @Column(name = "semester",nullable = false,length = 10)
+    private String semester;
 
     // Getters and Setters
     public int getId() {
@@ -64,5 +68,21 @@ public class Course {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+	public String getAcademicYear() {
+		return academicYear;
+	}
+
+	public void setAcademicYear(String academicYear) {
+		this.academicYear = academicYear;
+	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
 
 }

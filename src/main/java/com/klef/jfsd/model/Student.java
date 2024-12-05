@@ -30,6 +30,8 @@ public class Student
    private String password;
    @Column(name = "student_gender",nullable = false,length = 10)
    private String gender;
+   @Column(name = "student_status",nullable=false,length = 10)
+   private String status;
 public int getId() {
 	return id;
 }
@@ -89,6 +91,12 @@ public String getDepartment() {
 }
 public void setDepartment(String department) {
 	this.department = department;
+}
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
 }
    
 }
