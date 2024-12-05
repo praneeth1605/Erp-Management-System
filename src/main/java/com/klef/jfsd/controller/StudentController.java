@@ -280,7 +280,46 @@ public class StudentController
 		HttpSession session = request.getSession();
 		Student s = (Student) session.getAttribute("student");
 		List<Student_Course> scm = studentService.getstudentcourses(s.getId(), ay, semester);
+		double sum=0;
+		double csum=0,res=0;
+		for(int i=0;i<scm.size();i++)
+		{
+			sum = sum + (scm.get(i).getGrade() * scm.get(i).getCourse().getCredits());
+			csum=csum+scm.get(i).getCourse().getCredits();
+			
+			res = sum/csum;
+		}
+		if (csum != 0) {
+	        res = Math.round((sum / csum) * 100.0) / 100.0; // Rounds to 2 decimal places
+	    }
 		mv.addObject("mycourselist", scm);
+		mv.addObject("scgpa", res);
+		
+		return mv;
+	}
+	
+	@GetMapping("mycgpa")
+	public ModelAndView mycgpa(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("mycgpa");
+		HttpSession session = request.getSession();
+		Student s = (Student) session.getAttribute("student");
+		List<Student_Course> scm = studentService.ViewAllCourses(s);
+		double sum=0;
+		double csum=0,res=0;
+		for(int i=0;i<scm.size();i++)
+		{
+			sum = sum + (scm.get(i).getGrade() * scm.get(i).getCourse().getCredits());
+			csum=csum+scm.get(i).getCourse().getCredits();
+			
+			res = sum/csum;
+		}
+		if (csum != 0) {
+	        res = Math.round((sum / csum) * 100.0) / 100.0; // Rounds to 2 decimal places
+	    }
+		mv.addObject("mycourselist", scm);
+		mv.addObject("cgpa", res);
 		
 		return mv;
 	}

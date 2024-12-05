@@ -696,7 +696,7 @@ char ch = s.getName().charAt(0);
 
                 <!-- Assignments -->
                 <li class="nav-item">
-                    <a class="nav-link" href="assignments">
+                    <a class="nav-link" href="mycgpa">
                         <i class="fa fa-trophy"></i>
                         My CGPA
                     </a>

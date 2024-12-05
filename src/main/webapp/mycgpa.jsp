@@ -162,8 +162,8 @@ th:nth-child(2) {
     
         <div class="main-content">
             <div class="content-wrapper">
-                <h2>Sem End Exam Result</h2>
-                <h3>SCPGA: <c:out value="${scgpa}"></c:out> </h3>
+                <h2>My CGPA</h2>
+                <h3>CGPA: <c:out value="${cgpa}"></c:out> </h3>
                 <div class="table-container">
                     <table>
                         <tr>
