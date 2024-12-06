@@ -56,6 +56,8 @@ public class AdminController
 			String uname = request.getParameter("username");
 			String pwd = request.getParameter("password");
 			
+			System.out.println(pwd);
+			
 			Admin admin = adminService.checkAdminLogin(uname, pwd);
 			
 			if(admin!=null)

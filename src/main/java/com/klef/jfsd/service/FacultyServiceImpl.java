@@ -10,6 +10,7 @@ import com.klef.jfsd.model.Attendance;
 import com.klef.jfsd.model.Course;
 import com.klef.jfsd.model.Faculty;
 import com.klef.jfsd.model.FacultyCourseMapping;
+import com.klef.jfsd.model.Student;
 import com.klef.jfsd.model.Student_Course;
 import com.klef.jfsd.repository.AttendanceRepository;
 import com.klef.jfsd.repository.CourseRepository;
@@ -88,4 +89,20 @@ public String UpdateInternals(Student_Course scm) {
         return "Added Successfully";
     
 }
+
+@Override
+public Faculty getFacultyById(int id)
+{
+	return facultyRepository.findById(id).get();
+}
+
+@Override
+public String changePassword(int id, String pwd) 
+{
+	Faculty f = facultyRepository.findById(id).get();
+	f.setPassword(pwd);
+	facultyRepository.save(f);
+	return "success";
+}
+
 }

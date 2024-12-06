@@ -9,5 +9,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer>
 {
   @Query("select s from Student s where s.id=?1 and s.password=?2")
   public Student checkStudentLogin(int id, String pwd);
-
+  
+  public Student findById(int id);
 }

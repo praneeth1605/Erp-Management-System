@@ -1,6 +1,7 @@
 package com.klef.jfsd.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,16 +9,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.klef.jfsd.model.Course;
 import com.klef.jfsd.model.Faculty;
-import com.klef.jfsd.model.FacultyCourseMapping;
 import com.klef.jfsd.model.Student;
 import com.klef.jfsd.model.Student_Course;
 import com.klef.jfsd.service.AdminService;
+import com.klef.jfsd.service.CaptchaService;
+import com.klef.jfsd.service.EmailService;
 import com.klef.jfsd.service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +37,14 @@ public class StudentController
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private CaptchaService captchaService;
+	
+	public String generatedotp;
 	
 	@GetMapping("studenthome")
 	public ModelAndView studenthome()
@@ -50,6 +62,13 @@ public class StudentController
 		return mv;
 	}
 	
+	@ResponseBody
+	@GetMapping("/getcaptcha/{length}")
+    public String getCaptcha(@PathVariable("length") int captchaLength)
+    {
+    	return Base64.getEncoder().encodeToString(captchaService.generateCaptcha(captchaLength));
+    }
+	
 	@PostMapping("checklogin")
 	public ModelAndView checkStudentLogin(HttpServletRequest request)
 	{
@@ -57,30 +76,44 @@ public class StudentController
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		String pwd = request.getParameter("password");
-		
-		Student student = studentService.checkStudentLogin(id, pwd);
-		
-		HttpSession session = request.getSession();
-		
-		if(student!=null)
-		{
-			if(student.getStatus().equals("Active"))
-			{
-				session.setAttribute("student", student);
-				mv.setViewName("redirect:/student/studenthome");
-			}
-			else
-			{
-				mv.setViewName("blocked");
-			}
-			
-		}
-		else
-		{
-			mv.setViewName("studentloginfail");
-			mv.addObject("msg","Login Failed");
-		}
-		
+	  
+	    Student student = studentService.checkStudentLogin(id, pwd);
+	  		
+	  	HttpSession session = request.getSession();
+	  		
+	  	String Captcha = request.getParameter("Captcha");
+	    
+	    boolean isCaptchaValid = captchaService.validateCaptcha(Captcha);
+
+	      if (!isCaptchaValid) 
+	      {
+	          mv.addObject("message", "Invalid Captcha. Please try again.");
+	          mv.setViewName("redirect:/login");
+	          return mv;
+	      }
+	      else
+	      {	  
+		  		if(student!=null)
+		  		{
+		  			if(student.getStatus().equals("Active"))
+		  			{
+		  				session.setAttribute("student", student);
+		  				mv.setViewName("redirect:/student/studenthome");
+		  			}
+		  			else
+		  			{
+		  				mv.setViewName("blocked");
+		  			}
+		  			
+		  		}
+		  		
+		  		else
+		  		{
+		  			mv.setViewName("studentloginfail");
+		  			mv.addObject("msg","Login Failed");
+		  		}
+	      }
+	 
 		return mv;
 	}
 	
@@ -290,7 +323,7 @@ public class StudentController
 			res = sum/csum;
 		}
 		if (csum != 0) {
-	        res = Math.round((sum / csum) * 100.0) / 100.0; // Rounds to 2 decimal places
+	        res = Math.round((sum / csum) * 100.0) / 100.0; 
 	    }
 		mv.addObject("mycourselist", scm);
 		mv.addObject("scgpa", res);
@@ -316,10 +349,130 @@ public class StudentController
 			res = sum/csum;
 		}
 		if (csum != 0) {
-	        res = Math.round((sum / csum) * 100.0) / 100.0; // Rounds to 2 decimal places
+	        res = Math.round((sum / csum) * 100.0) / 100.0; 
 	    }
 		mv.addObject("mycourselist", scm);
 		mv.addObject("cgpa", res);
+		
+		return mv;
+	}
+	
+	@GetMapping("forgotpassword")
+	public ModelAndView forgotpassword()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("forgotpasswordstudent");
+		return mv;
+	}
+	
+	@PostMapping("otpgeneration")
+	public ModelAndView otpgeneration(HttpServletRequest request) {
+	    ModelAndView mv = new ModelAndView();
+	    int sid = Integer.parseInt(request.getParameter("sid"));
+	    Student s = studentService.getstudentbyid(sid);
+	    request.getSession().setAttribute("sid", sid);
+	    
+	    String toemail = s.getEmail();
+	    
+	    String subject = "Your One-Time Password (OTP) for Password Reset";
+
+	   
+	    int number = (int) (Math.random() * 900000) + 100000;
+	    generatedotp = Integer.toString(number);
+
+	    String name = s.getName();
+	    
+
+	    String message = String.format("""
+	    <html>
+	    <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f6f8f9 0%%, #e5ebee 100%%); color: #2c3e50; line-height: 1.6;">
+	        <div style="max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); overflow: hidden; border: 1px solid #e1e6ea;">
+	            <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center; color: white;">
+	                <h2 style="font-size: 26px; margin: 0; font-weight: 300; letter-spacing: 1px;">Password Reset</h2>
+	            </div>
+	            <div style="padding: 30px; background: #ffffff;">
+	                <p style="font-size: 16px; margin-bottom: 20px;">Dear <b>%s</b>,</p>
+	                
+	                <p style="font-size: 16px; color: #34495e;">We received a request to reset your password. Please use the One-Time Password (OTP) below to complete the process:</p>
+	                
+	                <div style="background: linear-gradient(145deg, #f0f9f0, #e6f2e6); border: 2px dashed #4CAF50; padding: 20px; text-align: center; border-radius: 10px; margin: 25px 0;">
+	                    <span style="font-size: 32px; font-weight: 600; color: #2ecc71; letter-spacing: 5px; display: block;">%s</span>
+	                    <p style="font-size: 14px; color: #7f8c8d; margin-top: 10px;">Valid for 10 minutes</p>
+	                </div>
+	                
+	                <p style="font-size: 14px; color: #2c3e50; margin: 25px 0; background-color: #f1f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
+	                    ⚠️ If you did not request this password reset, please ignore this email or contact our support team immediately.
+	                </p>
+	                
+	                <div style="text-align: center; margin-top: 30px;">
+	                    <a href="mailto:eduverse@gamil.com" style="display: inline-block; background-color: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">
+	                        Contact Support
+	                    </a>
+	                </div>
+	            </div>
+	            
+	            <div style="background: #2ecc71; color: white; padding: 15px; text-align: center; font-size: 14px;">
+	                <p style="margin: 0;">© 2024 Eduverse</p>
+	            </div>
+	        </div>
+	    </body>
+	    </html>
+	    """, name, generatedotp);
+
+
+	    emailService.sendEmail(toemail, subject, message);
+
+	    mv.setViewName("studentotp");
+	    mv.addObject("sid", sid);
+	    return mv;
+	}
+
+	
+	
+	@PostMapping("otp")
+	public ModelAndView otp(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		String otp = request.getParameter("otp");
+		
+		
+		System.out.println(otp);
+		
+		if(otp.equals(generatedotp))
+		{
+			mv.setViewName("forgotchangepasswordstudent");
+			
+		}
+		else
+		{
+			mv.setViewName("redirect:studentotp?msg=invalid");
+		}
+		
+		return mv;
+	}
+	
+	@GetMapping("studentotp")
+	public ModelAndView studentotp(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView("studentotp");
+		
+		 
+		return mv;
+	}
+	
+	@PostMapping("forgotpasswordupdate")
+	public ModelAndView forgotpasswordupdate(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		int sid = (Integer) request.getSession().getAttribute("sid");		
+		String pwd = request.getParameter("password");
+		
+		String msg = studentService.changePassword(sid, pwd);
+		
+		mv.setViewName("redirect:/student/login");
+		mv.addObject("msg",msg);
 		
 		return mv;
 	}

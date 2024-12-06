@@ -181,8 +181,8 @@
             <h1>Change Password</h1>
             <i class="fas fa-lock" style="font-size: 1.5rem;"></i>
         </div>
-
-        <form class="password-form" id="changePasswordForm" method="post" action="updatepwd">
+        
+        <form class="password-form" id="changePasswordForm" method="post" action="forgotpasswordupdate">
         
             <div class="form-group">
                 <label for="newPassword">New Password</label>

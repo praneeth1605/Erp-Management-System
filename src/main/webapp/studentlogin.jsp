@@ -99,6 +99,26 @@
             text-decoration: none;
             font-size: 0.9rem;
         }
+        captcha-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    width: 100%;
+}
+
+#captcha {
+    flex: 0 0 auto;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin: 0; 
+}
+
+.login-form input[name="Captcha"] {
+    flex: 1;
+    margin-bottom: 0; 
+}
         @media (max-width: 768px) {
             .login-wrapper {
                 flex-direction: column;
@@ -113,7 +133,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="loadcaptcha()">
     <%@include file="mainnavbar.jsp" %>
     
     <div class="login-container">
@@ -132,9 +152,14 @@
                         <input type="password" class="form-control" id="password" 
                                name="password" placeholder="Password" required>
                     </div>
+                    <div class="captcha-container">
+              <img id="captcha" alt="error" onclick="loadcaptcha()" src=""/>
+              <input type="text" name="Captcha" placeholder="Enter Captcha" required="required">
+            </div>
+            <br>
                     <button type="submit" class="btn btn-custom">Login</button>
                     <div class="login-links">
-                        <a href="#">Forgot Password?</a>
+                        <a href="forgotpassword">Forgot Password?</a>
                     </div>
                 </form>
             </div>
@@ -142,9 +167,39 @@
     </div>
 
     <%@include file="footer.jsp" %>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+  
+    <script>
+    function loadcaptcha()
+    {
+    	var url = "/student/getcaptcha/6"
+    	callApi("GET",url,"",getCaptcha);
+    }
+
+    function getCaptcha(res)
+    {
+    	captcha.src="data:image/png;base64,"+res;
+    }
+    //Call API
+    function callApi(method, url, data, responseHandler)
+    {
+      var options;
+      if(method == "GET" || method == "DELETE")
+        options = {method: method, headers:{'Content-Type':'application/json'} };
+      else
+        options = {method: method, headers:{'Content-Type':'application/json'}, body: data };
+      fetch(url, options)
+        .then(response => {
+          if(!response.ok)
+            throw new Error(response.status + ": " + response.statusText);
+          return response.text();
+        })
+        .then(data => responseHandler(data))
+        .catch(error => alert(error));
+    }
+    </script>
+   
 </html>

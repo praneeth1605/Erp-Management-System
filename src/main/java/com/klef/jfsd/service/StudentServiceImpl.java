@@ -68,7 +68,7 @@ public class StudentServiceImpl implements StudentService
 	@Override
 	public String changePassword(int id, String pwd) 
 	{
-		Student s = studentRepository.findById(id).orElseThrow();
+		Student s = studentRepository.findById(id);
 		s.setPassword(pwd);
 		studentRepository.save(s);
 		
@@ -117,6 +117,12 @@ public class StudentServiceImpl implements StudentService
 	{
 		return CourseMapping.findStudentByAyAndSem(id, ay, semester);
 				
+	}
+	
+	@Override
+	public Student getstudentbyid(int id)
+	{
+		return studentRepository.findById(id);
 	}
 	
 	

@@ -35,6 +35,8 @@ public interface StudentService
 
   public List<Student_Course> getstudentcourses(int id, String ay, String semester);
 
+  public Student getstudentbyid(int id);
+
   
   
 }

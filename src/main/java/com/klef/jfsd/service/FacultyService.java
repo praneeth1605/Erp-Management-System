@@ -17,6 +17,8 @@ public interface FacultyService
    public Course findcoursebyid(int cid);
    public String PostAttendance(Map<Integer, Attendance> att);
    public List<FacultyCourseMapping> mycourses(Faculty faculty);
-   public String UpdateInternals(Student_Course scm);  
+   public String UpdateInternals(Student_Course scm);
+   public Faculty getFacultyById(int id);
+   public String changePassword(int id, String pwd);  
    
 }

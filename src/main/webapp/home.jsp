@@ -149,7 +149,6 @@
 </head>
 <body>
     <!-- Navigation (you would include your existing navbar here) -->
-    <%@include file="mainnavbar.jsp" %>
 
     <!-- Hero Section -->
     <div class="hero-section">

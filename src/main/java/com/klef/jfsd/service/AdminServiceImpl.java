@@ -69,7 +69,7 @@ public class AdminServiceImpl implements AdminService
 	@Override
 	public String updateStudent(Student s) 
 	{
-		Student student = studentRepository.findById(s.getId()).orElseThrow();
+		Student student = studentRepository.findById(s.getId());
 		
 		student.setEmail(s.getEmail());
 		student.setContactno(s.getContactno());
@@ -120,7 +120,7 @@ public class AdminServiceImpl implements AdminService
 	@Override
 	public void deleteStudent(int id) 
 	{
-        Student s = studentRepository.findById(id).get();
+        Student s = studentRepository.findById(id);
         s.setStatus("Inactive");
         
         studentRepository.save(s);
