@@ -11,7 +11,7 @@
 	<groupId>com.klef.jfsd</groupId>
 	<artifactId>JFSDProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>JFSDProject</name>
 	<description>Enterprise Resource Planning Project </description>
 	<url/>
