@@ -28,5 +28,8 @@ public interface AdminService
    public String mapFacultyToCourse(int section, Faculty f, Course c);
    public long getcount(int cid, int fid, int sec);
    public List<FacultyCourseMapping> viewFacultyMappedcourses();
+   public long getstudentcount();
+   public long getfacultycount(); 
+   public long getcoursecount();
    
 }

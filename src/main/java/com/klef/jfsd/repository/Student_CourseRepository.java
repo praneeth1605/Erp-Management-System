@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.klef.jfsd.model.Student_Course;
 import java.util.List;
 
-import com.klef.jfsd.model.FacultyCourseMapping;
 import com.klef.jfsd.model.Student;
 import com.klef.jfsd.model.Course;
 
@@ -26,4 +25,6 @@ public interface Student_CourseRepository extends JpaRepository<Student_Course, 
 	
 	@Query("select scm from Student_Course scm where scm.student.id=?1 and scm.course.academicYear=?2 and scm.course.semester=?3")
 	public List<Student_Course> findStudentByAyAndSem(int id, String ay, String semester);
+	
+	public long countByStudent(Student student);
 }

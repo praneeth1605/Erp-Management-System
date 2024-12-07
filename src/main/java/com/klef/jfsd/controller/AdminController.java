@@ -20,7 +20,6 @@ import com.klef.jfsd.service.AdminService;
 import com.klef.jfsd.service.FacultyService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("admin")
@@ -62,7 +61,8 @@ public class AdminController
 			
 			if(admin!=null)
 			{
-				mv.setViewName("adminhome");
+				mv.setViewName("redirect:/admin/home");
+				
 			}
 			else
 			{
@@ -80,6 +80,9 @@ public class AdminController
 	   {
 		   ModelAndView mv = new ModelAndView();
 		   mv.setViewName("adminhome");
+		   mv.addObject("studentcount", adminService.getstudentcount());
+			mv.addObject("facultycount", adminService.getfacultycount());
+			mv.addObject("coursecount", adminService.getcoursecount());
 		   return mv;
 	   }
 	

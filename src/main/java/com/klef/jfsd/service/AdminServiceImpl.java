@@ -203,4 +203,24 @@ public class AdminServiceImpl implements AdminService
 		return mapping.getCount(fid, cid, sec);
 	}
 
+	@Override
+	public long getstudentcount() 
+	{
+		return studentRepository.getStudentCount();
+	}
+	
+	@Override
+	public long getfacultycount() 
+	{
+		return facultyRepository.getFacultyCount();
+	}
+	
+	@Override
+	public long getcoursecount() 
+	{
+		return courseRepository.getcoursecount();
+	}
+	
+	
+
 }

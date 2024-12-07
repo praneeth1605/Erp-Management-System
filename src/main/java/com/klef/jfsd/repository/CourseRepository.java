@@ -11,4 +11,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>
 {
    @Query("select c from Course c where c.academicYear=?1 and c.semester=?2")
    public List<Course> viewcoursebysem(String ay, String semester);
+   
+   @Query("select count(c) from Course c")
+   public long getcoursecount();
 }

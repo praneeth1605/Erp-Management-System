@@ -47,9 +47,21 @@ public class StudentController
 	public String generatedotp;
 	
 	@GetMapping("studenthome")
-	public ModelAndView studenthome()
+	public ModelAndView studenthome(HttpServletRequest request)
 	{
 	  ModelAndView mv = new ModelAndView();
+	  HttpSession session = request.getSession();
+	  Student s = (Student) session.getAttribute("student");
+	  List<Student_Course> scm = studentService.ViewAllCourses(s);
+		double sum=0;
+		for(int i=0;i<scm.size();i++)
+		{
+			sum = sum + (scm.get(i).getCourse().getCredits());
+		}
+      
+		mv.addObject("sum", sum);
+		mv.addObject("gpa", calGPA(s));
+		mv.addObject("coursecount", studentService.getRegisteredCoursesCount(s));
 	  mv.setViewName("studenthome");
 	  return mv;
 	}	
@@ -100,16 +112,8 @@ public class StudentController
 		  				session.setAttribute("student", student);
 		  				
 		  				Student s = (Student) session.getAttribute("student");
-		  				List<Student_Course> scm = studentService.ViewAllCourses(s);
-		  				double sum=0;
-		  				for(int i=0;i<scm.size();i++)
-		  				{
-		  					sum = sum + (scm.get(i).getCourse().getCredits());
-		  				}
-                        
-		  				mv.addObject("sum", sum);
-		  				mv.addObject("gpa", calGPA(s));
-		  				mv.setViewName("studenthome");
+		  				
+		  				mv.setViewName("redirect:/student/studenthome");
 		  			}
 		  			else
 		  			{
@@ -378,6 +382,7 @@ public class StudentController
 		
 		return res;
 	}
+	
 	@GetMapping("forgotpassword")
 	public ModelAndView forgotpassword()
 	{

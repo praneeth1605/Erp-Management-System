@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +86,7 @@
                             <i class="fas fa-user-graduate card-icon text-primary"></i>
                             <div class="stat-label">Total Students</div>
                             <div class="stat-value">
-                                <%= request.getAttribute("totalStudents") != null ? request.getAttribute("totalStudents") : "1,250" %>
+                                <c:out value="${studentcount}"></c:out>
                             </div>
                         </div>
                     </div>
@@ -100,7 +101,7 @@
                             <i class="fas fa-chalkboard-teacher card-icon text-success"></i>
                             <div class="stat-label">Total Faculty</div>
                             <div class="stat-value">
-                                <%= request.getAttribute("totalFaculty") != null ? request.getAttribute("totalFaculty") : "75" %>
+                                 <c:out value="${facultycount}"></c:out>
                             </div>
                         </div>
                     </div>
@@ -115,7 +116,7 @@
                             <i class="fas fa-book-open card-icon text-info"></i>
                             <div class="stat-label">Total Courses</div>
                             <div class="stat-value">
-                                <%= request.getAttribute("totalCourses") != null ? request.getAttribute("totalCourses") : "32" %>
+                                 <c:out value="${coursecount}"></c:out>
                             </div>
                         </div>
                     </div>
@@ -130,7 +131,7 @@
                             <i class="fas fa-building card-icon text-warning"></i>
                             <div class="stat-label">Departments</div>
                             <div class="stat-value">
-                                <%= request.getAttribute("totalDepartments") != null ? request.getAttribute("totalDepartments") : "8" %>
+                                <c:out value="6"></c:out>
                             </div>
                         </div>
                     </div>

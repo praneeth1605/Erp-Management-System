@@ -11,4 +11,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer>
   public Student checkStudentLogin(int id, String pwd);
   
   public Student findById(int id);
+  
+  @Query("select count(s) from Student s ")
+  public long getStudentCount();
 }

@@ -18,5 +18,6 @@ public interface FacultyRepository extends JpaRepository<Faculty, Integer>
   @Query("select s from Student_Course s where s.course.id=?1 and s.section=?2")
   public List<Student_Course> viewstudentsbycourse(int cid, int sec);
   
-  
+  @Query("select count(f) from Faculty f ")
+  public long getFacultyCount();
 }

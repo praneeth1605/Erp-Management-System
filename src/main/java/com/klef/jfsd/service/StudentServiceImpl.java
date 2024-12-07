@@ -124,6 +124,13 @@ public class StudentServiceImpl implements StudentService
 	{
 		return studentRepository.findById(id);
 	}
+
+	@Override
+	public long getRegisteredCoursesCount(Student s) 
+	{
+		
+		return CourseMapping.countByStudent(s);
+	}
 	
 	
 }
