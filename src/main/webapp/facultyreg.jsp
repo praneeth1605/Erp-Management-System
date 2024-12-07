@@ -192,7 +192,12 @@
 
             <div class="form-group">
                 <label for="designation">Designation</label>
-                <input type="text" class="form-control" id="designation" name="designation" placeholder="Enter designation" required>
+                 <select class="form-control" id="dept" name="dept" required>
+                    <option value="">Select Designation</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                    <option value="Associate Professor">Associate Professor</option>
+                    <option value="HOD">HOD</option>
+                </select>
             </div>
 
             <button type="submit" class="btn btn-custom">Register</button>
