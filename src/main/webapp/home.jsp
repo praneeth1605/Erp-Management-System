@@ -153,9 +153,10 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="container hero-content">
+            <h1 class="display-3 mb-4 text-white">EduVerse</h1>
             <h1 class="display-3 mb-4 text-white">Transform Educational Management</h1>
             <p class="lead mb-5 text-white">Empowering Institutions with Intelligent Technology</p>
-            <a href="/login" class="btn btn-primary-custom btn-lg px-5">Get Started</a>
+            <a href="/login" class="btn btn-primary-custom btn-lg px-5" style="color: white">Get Started</a>
         </div>
     </div>
 

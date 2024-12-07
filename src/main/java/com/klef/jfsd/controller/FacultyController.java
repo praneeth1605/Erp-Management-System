@@ -79,7 +79,7 @@ public class FacultyController
 	      if (!isCaptchaValid) 
 	      {
 	          mv.addObject("message", "Invalid Captcha. Please try again.");
-	          mv.setViewName("redirect:/login");
+	          mv.setViewName("redirect:/faculty/login");
 	          return mv;
 	      }
 	      else

@@ -131,10 +131,37 @@
                 object-fit: cover; 
             }
         }
+/* Toast Notification Styles */
+        #toast {
+            visibility: hidden;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            z-index: 1100;
+            min-width: 250px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.5s ease-in-out;
+        }
+        #toast.show {
+            visibility: visible;
+            transform: translateX(0);
+        }
+        #toast.hide {
+            transform: translateX(100%);
+        }    
     </style>
 </head>
-<body onload="loadcaptcha()">
+<body onload="loadcaptcha(); checkUrlMessage();">
     <%@include file="mainnavbar.jsp" %>
+    
+    <!-- Toast Notification -->
+    <div id="toast"></div>
     
     <div class="login-container">
         <div class="login-wrapper">
@@ -153,7 +180,7 @@
                                name="password" placeholder="Password" required>
                     </div>
                     <div class="captcha-container">
-              <img id="captcha" alt="error" onclick="loadcaptcha()" src=""/>
+              <img id="captcha" alt="captcha" onclick="loadcaptcha()" src=""/>
               <input type="text" name="Captcha" placeholder="Enter Captcha" required="required">
             </div>
             <br>
@@ -200,6 +227,23 @@
         .then(data => responseHandler(data))
         .catch(error => alert(error));
     }
+    
+    function checkUrlMessage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+
+        if (message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = decodeURIComponent(message);
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    }
+
+    
     </script>
    
 </html>

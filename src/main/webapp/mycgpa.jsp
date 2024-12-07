@@ -96,7 +96,6 @@ table th {
     color: var(--text-light);
     padding: 12px;
     text-align: left;
-    text-transform: uppercase;
     font-weight: 600;
 }
 

@@ -88,7 +88,7 @@ public class StudentController
 	      if (!isCaptchaValid) 
 	      {
 	          mv.addObject("message", "Invalid Captcha. Please try again.");
-	          mv.setViewName("redirect:/login");
+	          mv.setViewName("redirect:/student/login");
 	          return mv;
 	      }
 	      else
@@ -98,7 +98,18 @@ public class StudentController
 		  			if(student.getStatus().equals("Active"))
 		  			{
 		  				session.setAttribute("student", student);
-		  				mv.setViewName("redirect:/student/studenthome");
+		  				
+		  				Student s = (Student) session.getAttribute("student");
+		  				List<Student_Course> scm = studentService.ViewAllCourses(s);
+		  				double sum=0;
+		  				for(int i=0;i<scm.size();i++)
+		  				{
+		  					sum = sum + (scm.get(i).getCourse().getCredits());
+		  				}
+                        
+		  				mv.addObject("sum", sum);
+		  				mv.addObject("gpa", calGPA(s));
+		  				mv.setViewName("studenthome");
 		  			}
 		  			else
 		  			{
@@ -338,6 +349,19 @@ public class StudentController
 		mv.setViewName("mycgpa");
 		HttpSession session = request.getSession();
 		Student s = (Student) session.getAttribute("student");
+		
+		List<Student_Course> scm = studentService.ViewAllCourses(s);
+		
+		double res= calGPA(s);
+		
+		mv.addObject("mycourselist", scm);
+		mv.addObject("cgpa", res);
+		
+		return mv;
+	}
+	
+	public double calGPA(Student s)
+	{
 		List<Student_Course> scm = studentService.ViewAllCourses(s);
 		double sum=0;
 		double csum=0,res=0;
@@ -351,12 +375,9 @@ public class StudentController
 		if (csum != 0) {
 	        res = Math.round((sum / csum) * 100.0) / 100.0; 
 	    }
-		mv.addObject("mycourselist", scm);
-		mv.addObject("cgpa", res);
 		
-		return mv;
+		return res;
 	}
-	
 	@GetMapping("forgotpassword")
 	public ModelAndView forgotpassword()
 	{

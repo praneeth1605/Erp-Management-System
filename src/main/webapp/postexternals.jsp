@@ -183,7 +183,7 @@
             </div>
 
             <button type="submit" class="btn-submit">
-                Post Internals
+                Post Externals
             </button>
         </form>
     </div>

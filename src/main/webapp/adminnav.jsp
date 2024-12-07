@@ -721,7 +721,7 @@
             <ul class="nav flex-column">
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link" href="adminhome">
+                    <a class="nav-link" href="home">
                         <i class="fas fa-home"></i>
                         Dashboard
                     </a>

@@ -42,7 +42,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0; /* Remove padding to make image fit fully */
+            padding: 0;
             overflow: hidden;
         }
         .login-image img {
@@ -98,40 +98,71 @@
             text-decoration: none;
             font-size: 0.9rem;
         }
+        /* Toast Notification Styles */
+        #toast {
+            visibility: hidden;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            z-index: 1100;
+            min-width: 250px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.5s ease-in-out;
+        }
+        #toast.show {
+            visibility: visible;
+            transform: translateX(0);
+        }
+        #toast.hide {
+            transform: translateX(100%);
+        }
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            width: 100%;
+        }
+        #captcha {
+            flex: 0 0 auto;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin: 0; 
+        }
         @media (max-width: 768px) {
             .login-wrapper {
                 flex-direction: column;
             }
             .login-image {
-                height: 200px; /* Adjust for smaller screens */
+                height: 200px;
             }
             .login-image img {
                 height: 100%; 
                 object-fit: cover; 
             }
+            #toast {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                width: calc(100% - 20px);
+                min-width: auto;
+            }
         }
-        
-        captcha-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.2rem;
-    width: 100%;
-}
-
-#captcha {
-    flex: 0 0 auto;
-    height: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin: 0; 
-}
-        
     </style>
 </head>
-<body onload="loadcaptcha()">
+<body onload="loadcaptcha(); checkUrlMessage();">
     <%@include file="mainnavbar.jsp" %>
     
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
     <div class="login-container">
         <div class="login-wrapper">
             <div class="login-image">
@@ -149,10 +180,10 @@
                                name="password" placeholder="Password" required>
                     </div>
                     <div class="captcha-container">
-              <img id="captcha" alt="error" onclick="loadcaptcha()" src=""/>
-              <input type="text" name="Captcha" placeholder="Enter Captcha" required="required">
-            </div>
-            <br>
+                        <img id="captcha" alt="captcha" onclick="loadcaptcha()" src=""/>
+                        <input type="text" name="Captcha" placeholder="Enter Captcha" required="required">
+                    </div>
+                    <br>
                     <button type="submit" class="btn btn-custom">Login</button>
                     <div class="login-links">
                         <a href="forgotpassword">Forgot Password?</a>
@@ -167,34 +198,53 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-<script>
-    function loadcaptcha()
-    {
-    	var url = "/faculty/getcaptcha/6"
-    	callApi("GET",url,"",getCaptcha);
+
+    <script>
+    function loadcaptcha() {
+        var url = "/faculty/getcaptcha/6"
+        callApi("GET", url, "", getCaptcha);
     }
 
-    function getCaptcha(res)
-    {
-    	captcha.src="data:image/png;base64,"+res;
+    function getCaptcha(res) {
+        captcha.src = "data:image/png;base64," + res;
     }
-    //Call API
-    function callApi(method, url, data, responseHandler)
-    {
-      var options;
-      if(method == "GET" || method == "DELETE")
-        options = {method: method, headers:{'Content-Type':'application/json'} };
-      else
-        options = {method: method, headers:{'Content-Type':'application/json'}, body: data };
-      fetch(url, options)
-        .then(response => {
-          if(!response.ok)
-            throw new Error(response.status + ": " + response.statusText);
-          return response.text();
-        })
-        .then(data => responseHandler(data))
-        .catch(error => alert(error));
+
+    // Call API
+    function callApi(method, url, data, responseHandler) {
+        var options;
+        if(method == "GET" || method == "DELETE")
+            options = {method: method, headers:{'Content-Type':'application/json'} };
+        else
+            options = {method: method, headers:{'Content-Type':'application/json'}, body: data };
+        
+        fetch(url, options)
+            .then(response => {
+                if(!response.ok)
+                    throw new Error(response.status + ": " + response.statusText);
+                return response.text();
+            })
+            .then(data => responseHandler(data))
+            .catch(error => alert(error));
+    }
+
+    // Function to check URL for message and show toast
+    function checkUrlMessage() {
+        // Get the message from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        
+        // If message exists, show toast
+        if (message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = decodeURIComponent(message);
+            toast.classList.add('show');
+            
+            // Remove toast after animation completes
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
     }
     </script>
+</body>
 </html>
