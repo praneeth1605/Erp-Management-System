@@ -20,7 +20,7 @@
 <body>
  <!-- Footer Section -->
     <footer>
-        <p>&copy; 2024 ERP Management System | JFSD PRANEETH</p>
+        <p>&copy; 2024 ERP Management System</p>
     </footer>
 
 </body>
